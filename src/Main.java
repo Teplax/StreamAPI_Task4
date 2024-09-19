@@ -30,27 +30,17 @@ public class Main {
                 .map(Person::getFamily) //получаем фамилии
                 .toList();
 
-        //список потенциально работоспособных мужчин с высшим образованием
-        List<Person> ableToWorkMan = persons.stream()
+        //список потенциально работоспособных людей с высшим образованием
+        List<Person> ableToWork = persons.stream()
                 .filter(person -> person.getEducation() == Education.HIGHER) //фильтруем по образованию
-                .filter(person -> person.getSex() == Sex.MAN)  //фильтр по полу
-                .filter(person -> person.getAge() >= 18 && person.getAge() < 65)  // фильтр по возрасту
+                .filter(person -> (person.getSex() == Sex.MAN&&person.getAge() >= 18 && person.getAge() < 65)
+                ||(person.getSex() == Sex.WOMAN && person.getAge() >= 18 && person.getAge() < 60))  //фильтр по полу и возрасту
                 .sorted(Comparator.comparing(Person::getFamily))  // сортируем по фамилии
                 .toList();  //добавляем в список
 
-        //Теперь добавим в вышесозданный список женщин
-        List<Person> ableToWorkWoman = persons.stream()
-                .filter(person -> person.getEducation() == Education.HIGHER) //фильтруем по образованию
-                .filter(person -> person.getSex() == Sex.WOMAN && person.getAge() >= 18 && person.getAge() < 60) //фильтр по полу и возрасту
-                .sorted(Comparator.comparing(Person::getFamily)) //сортируем по фамилии
-                .toList();
 
-        //объединяем списки мужчин и женщин в один
-        List<Person> ableToWork = new ArrayList<>(ableToWorkMan);
-        ableToWork.addAll(ableToWorkWoman);
 
-        //финальная сортировка в общем списке по фамилии
-        ableToWork.sort(Comparator.comparing(Person::getFamily));
+
 
 //        for (Person p:ableToWork){
 //            System.out.println(p.toString());
